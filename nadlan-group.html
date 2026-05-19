@@ -83,7 +83,7 @@ nav{position:fixed;top:0;right:0;left:0;z-index:200;background:#0d0d0d;border-bo
 
 /* PROPERTY CARDS */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;margin-bottom:32px}
-.pcard{background:#1c1c1c;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s}
+.pcard{background:#1c1c1c;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
 .pcard:hover{transform:translateY(-5px);border-color:#c9a84c;box-shadow:0 12px 40px rgba(201,168,76,.12)}
 .pcard.sold{opacity:1}
 .pimg{height:200px;background:#1a1a1a;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
@@ -97,12 +97,12 @@ nav{position:fixed;top:0;right:0;left:0;z-index:200;background:#0d0d0d;border-bo
 .img-count{position:absolute;bottom:9px;left:9px;background:rgba(0,0,0,.7);color:#f0ead8;font-size:.68rem;padding:3px 9px;border-radius:12px}
 .sold-ovl{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center}
 .sold-stamp{border:3px solid #c9a84c;color:#c9a84c;font-size:1.1rem;font-weight:900;padding:7px 16px;transform:rotate(-15deg);letter-spacing:2px;background:rgba(0,0,0,.5)}
-.pbody{padding:16px}
+.pbody{padding:16px;display:flex;flex-direction:column;flex:1}
 .pbody h3{font-size:.97rem;font-weight:700;margin-bottom:4px;line-height:1.3}
 .ploc{color:#c9a84c;font-size:.74rem;margin-bottom:8px}
 .pmeta{display:flex;gap:8px;color:#666;font-size:.72rem;margin-bottom:7px;flex-wrap:wrap}
 .pdesc{color:#777;font-size:.76rem;line-height:1.6;margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.pprice{font-size:1.2rem;font-weight:900;color:#c9a84c;border-top:1px solid #242424;padding-top:10px;margin-bottom:9px}
+.pprice{font-size:1.2rem;font-weight:900;color:#c9a84c;border-top:1px solid #242424;padding-top:10px;margin-bottom:9px;margin-top:auto}
 .pfeats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
 .pfeat{background:#161616;border:1px solid #c9a84c22;border-radius:20px;padding:2px 9px;font-size:.68rem;color:#c9a84c}
 .card-btns{display:flex;gap:5px;flex-wrap:wrap}
