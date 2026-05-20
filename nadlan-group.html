@@ -671,29 +671,9 @@ function saveContactInfo(){
 function load(){
   // load() is now a no-op – data is loaded via loadFromDB() on startup
 }
-var CACHE_VER='v2';
-function saveToCache(data){
-  try{localStorage.setItem('ndCache',JSON.stringify({ver:CACHE_VER,data:data}));}catch(e){}
-}
-function loadFromCache(){
-  try{
-    var c=localStorage.getItem('ndCache');
-    if(!c)return false;
-    var obj=JSON.parse(c);
-    if(!obj||obj.ver!==CACHE_VER){localStorage.removeItem('ndCache');return false;}
-    var data=obj.data;
-    if(data.ilProps)ilProps=data.ilProps;
-    if(data.osProps)osProps=data.osProps;
-    if(data.agents)agents=data.agents;
-    if(data.contactInfo)contactInfo=data.contactInfo;
-    return true;
-  }catch(e){return false;}
-}
 function loadFromDB(){
-  db.ref('siteData').keepSynced(true);
-  var cached=loadFromCache();
-  if(cached){applyContactInfo();renderAll();go('home');}
-  var firstLoad=!cached;
+  try{localStorage.removeItem('ndCache');}catch(e){}
+  var firstLoad=true;
   db.ref('siteData').on('value', function(snapshot){
     var data=snapshot.val();
     if(data){
@@ -701,7 +681,6 @@ function loadFromDB(){
       if(data.osProps)osProps=data.osProps;
       if(data.agents)agents=data.agents;
       if(data.contactInfo)contactInfo=data.contactInfo;
-      saveToCache(data);
     }
     applyContactInfo();
     renderAll();
