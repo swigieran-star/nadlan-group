@@ -388,7 +388,7 @@ footer span{color:#c9a84c}
 
 <!-- NAV -->
 <nav>
-  <div class="logo" onclick="go('home')">נדלן<span>גרופ</span></div>
+  <div class="logo" onclick="go('home');logoClick()">נדלן<span>גרופ</span></div>
   <ul class="nav-links">
     <li><a id="nh" onclick="go('home')" class="on">ראשי</a></li>
     <li><a id="na" onclick="go('about')">מי אנחנו</a></li>
@@ -398,8 +398,8 @@ footer span{color:#c9a84c}
     <li><a id="ns" onclick="go('sold')" class="sold-a">🏷️ נמכרו</a></li>
     <li><a id="nc" onclick="go('contact')" class="">צור קשר</a></li>
   </ul>
-  <button id="adminBtn" onclick="toggleAdmin()" fdprocessedid="97qfmv" class="on">⚙️ מנהל</button>
-  <button id="saveFileBtn" onclick="saveToFile()" style="display: inline-block; background: rgb(201, 168, 76); border: none; color: rgb(17, 17, 17); padding: 7px 16px; border-radius: 4px; font-size: 0.83rem; font-weight: 700; cursor: pointer; font-family: Heebo, sans-serif;" fdprocessedid="tmrk7">💾 שמור קובץ</button>
+  <button id="adminBtn" style="display:none" onclick="toggleAdmin()" fdprocessedid="97qfmv" class="on">⚙️ מנהל</button>
+  <button id="saveFileBtn" onclick="saveToFile()" style="display: none; background: rgb(201, 168, 76); border: none; color: rgb(17, 17, 17); padding: 7px 16px; border-radius: 4px; font-size: 0.83rem; font-weight: 700; cursor: pointer; font-family: Heebo, sans-serif;" fdprocessedid="tmrk7">💾 שמור קובץ</button>
 </nav>
 
 <div id="adminBanner" class="on">
@@ -719,6 +719,17 @@ function goBack(){go(prevPage);}
 /* ═══════════════════════════════════════
    ADMIN
 ═══════════════════════════════════════ */
+
+var _logoClicks=0,_logoTimer=null;
+function logoClick(){
+  _logoClicks++;
+  clearTimeout(_logoTimer);
+  _logoTimer=setTimeout(function(){_logoClicks=0;},1500);
+  if(_logoClicks>=5){
+    _logoClicks=0;
+    document.getElementById('adminBtn').style.display='inline-block';
+  }
+}
 function toggleAdmin(){
   if(isAdmin){logout();return;}
   document.getElementById('loginModal').classList.add('on');
@@ -753,6 +764,7 @@ function logout(){
   document.getElementById('adminBanner').classList.remove('on');
   document.getElementById('adminBtn').textContent='🔒 ניהול';
   document.getElementById('adminBtn').classList.remove('on');
+  document.getElementById('adminBtn').style.display='none';
   document.getElementById('saveFileBtn').style.display='none';
   document.getElementById('ilForm').style.display='none';
   document.getElementById('osForm').style.display='none';
