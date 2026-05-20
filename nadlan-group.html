@@ -867,7 +867,7 @@ function renderTeam(){
       +'<div class="abody"><div class="aname">'+a.name+'</div><div class="arole">'+a.role+'</div>'
       +'<div class="abio">'+a.bio+'</div>'
       +(a.license?'<div style="color:#888;font-size:.7rem;margin-bottom:6px">🪪 רישיון: '+a.license+'</div>':'')
-      +'<div class="acontact"><span>📞 '+a.phone+'</span><span>✉️ '+a.email+'</span></div>'
+      +'<div class="acontact"><span>📞 <strong>'+a.phone+'</strong></span><span>✉️ '+a.email+'</span></div>'
       +'</div></div>';
   }).join('');
 }
