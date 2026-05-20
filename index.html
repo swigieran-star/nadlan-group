@@ -671,20 +671,38 @@ function saveContactInfo(){
 function load(){
   // load() is now a no-op – data is loaded via loadFromDB() on startup
 }
+function saveToCache(data){
+  try{localStorage.setItem('ndCache',JSON.stringify(data));}catch(e){}
+}
+function loadFromCache(){
+  try{
+    var c=localStorage.getItem('ndCache');
+    if(!c)return false;
+    var data=JSON.parse(c);
+    if(data.ilProps)ilProps=data.ilProps;
+    if(data.osProps)osProps=data.osProps;
+    if(data.agents)agents=data.agents;
+    if(data.contactInfo)contactInfo=data.contactInfo;
+    return true;
+  }catch(e){return false;}
+}
 function loadFromDB(){
   db.ref('siteData').keepSynced(true);
-  var firstLoad = true;
+  var cached=loadFromCache();
+  if(cached){applyContactInfo();renderAll();go('home');}
+  var firstLoad=!cached;
   db.ref('siteData').on('value', function(snapshot){
-    var data = snapshot.val();
+    var data=snapshot.val();
     if(data){
-      if(data.ilProps)    ilProps     = data.ilProps;
-      if(data.osProps)    osProps     = data.osProps;
-      if(data.agents)     agents      = data.agents;
-      if(data.contactInfo)contactInfo = data.contactInfo;
+      if(data.ilProps)ilProps=data.ilProps;
+      if(data.osProps)osProps=data.osProps;
+      if(data.agents)agents=data.agents;
+      if(data.contactInfo)contactInfo=data.contactInfo;
+      saveToCache(data);
     }
     applyContactInfo();
     renderAll();
-    if(firstLoad){ firstLoad=false; go('home'); }
+    if(firstLoad){firstLoad=false;go('home');}
   });
 }
 function applyContactInfo(){
