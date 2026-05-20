@@ -671,14 +671,17 @@ function saveContactInfo(){
 function load(){
   // load() is now a no-op – data is loaded via loadFromDB() on startup
 }
+var CACHE_VER='v2';
 function saveToCache(data){
-  try{localStorage.setItem('ndCache',JSON.stringify(data));}catch(e){}
+  try{localStorage.setItem('ndCache',JSON.stringify({ver:CACHE_VER,data:data}));}catch(e){}
 }
 function loadFromCache(){
   try{
     var c=localStorage.getItem('ndCache');
     if(!c)return false;
-    var data=JSON.parse(c);
+    var obj=JSON.parse(c);
+    if(!obj||obj.ver!==CACHE_VER){localStorage.removeItem('ndCache');return false;}
+    var data=obj.data;
     if(data.ilProps)ilProps=data.ilProps;
     if(data.osProps)osProps=data.osProps;
     if(data.agents)agents=data.agents;
