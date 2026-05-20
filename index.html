@@ -672,6 +672,7 @@ function load(){
   // load() is now a no-op – data is loaded via loadFromDB() on startup
 }
 function loadFromDB(){
+  var firstLoad = true;
   db.ref('siteData').on('value', function(snapshot){
     var data = snapshot.val();
     if(data){
@@ -682,7 +683,7 @@ function loadFromDB(){
     }
     applyContactInfo();
     renderAll();
-    go('home');
+    if(firstLoad){ firstLoad=false; go('home'); }
   });
 }
 function applyContactInfo(){
