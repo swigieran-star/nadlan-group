@@ -588,9 +588,9 @@ footer span{color:#c9a84c}
     <div class="bar" style="margin:0 auto 16px"></div>
     <p style="color:#666;max-width:420px;margin:0 auto;line-height:1.8;font-size:.9rem" id="contactDesc">מחפשים נכס? רוצים להשקיע? צרו איתנו קשר ואנחנו נחזור אליכם תוך 24 שעות.</p>
     <div class="ccards">
-      <div class="ccard"><div class="ico">📞</div><h4>טלפון</h4><p id="cPhone">0547479918</p></div>
-      <div class="ccard"><div class="ico">📧</div><h4>אימייל</h4><p id="cEmail">info@nadlangroup.co.il</p></div>
-      <div class="ccard"><div class="ico">📍</div><h4>כתובת</h4><p id="cAddress">עזרא גבאי 3</p></div>
+      <a id="cPhoneLink" href="tel:+972547479918" class="ccard" style="text-decoration:none;color:inherit;display:block"><div class="ico">📞</div><h4>טלפון</h4><p id="cPhone">0547479918</p></a>
+      <a id="cEmailLink" href="mailto:info@nadlangroup.co.il" class="ccard" style="text-decoration:none;color:inherit;display:block"><div class="ico">📧</div><h4>אימייל</h4><p id="cEmail">info@nadlangroup.co.il</p></a>
+      <a id="cAddressLink" href="https://waze.com/ul?q=עזרא גבאי 3" target="_blank" class="ccard" style="text-decoration:none;color:inherit;display:block"><div class="ico">📍</div><h4>כתובת</h4><p id="cAddress">עזרא גבאי 3</p></a>
     </div>
     <button class="contact-edit-btn on" id="contactEditBtn" onclick="openContactEdit()">✏️ ערוך פרטי קשר</button>
   </div>
@@ -691,9 +691,9 @@ function applyContactInfo(){
   var el=function(id){return document.getElementById(id);};
   if(el('contactTitle')) el('contactTitle').textContent=contactInfo.title;
   if(el('contactDesc'))  el('contactDesc').textContent=contactInfo.desc;
-  if(el('cPhone'))   el('cPhone').textContent=contactInfo.phone;
-  if(el('cEmail'))   el('cEmail').textContent=contactInfo.email;
-  if(el('cAddress')) el('cAddress').textContent=contactInfo.address;
+  if(el('cPhone')){el('cPhone').textContent=contactInfo.phone;if(el('cPhoneLink'))el('cPhoneLink').href='tel:+972'+contactInfo.phone.replace(/[^0-9]/g,'').replace(/^0/,'');}
+  if(el('cEmail')){el('cEmail').textContent=contactInfo.email;if(el('cEmailLink'))el('cEmailLink').href='mailto:'+contactInfo.email;}
+  if(el('cAddress')){el('cAddress').textContent=contactInfo.address;if(el('cAddressLink'))el('cAddressLink').href='https://waze.com/ul?q='+encodeURIComponent(contactInfo.address);}
 }
 function getProp(id){
   var all=ilProps.concat(osProps);
