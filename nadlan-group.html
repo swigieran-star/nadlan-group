@@ -6,6 +6,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
 var firebaseConfig = {
   apiKey: "AIzaSyCgdHw-EoC_H22AUsZysfxWiGbBBde5Wvk",
@@ -19,6 +20,7 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 var db = firebase.database();
+var auth = firebase.auth();
 var storage = firebase.storage();
 function uploadFile(file, folder){
   var path = folder+'/'+Date.now()+'_'+Math.random().toString(36).substr(2,6)+'_'+file.name;
@@ -736,22 +738,25 @@ function toggleAdmin(){
   setTimeout(function(){document.getElementById('pwInput').focus();},200);
 }
 function tryLogin(){
-  if(document.getElementById('pwInput').value===PASS){
-    isAdmin=true;
-    document.getElementById('loginModal').classList.remove('on');
-    document.getElementById('pwInput').value='';
-    document.getElementById('loginErr').textContent='';
-    document.getElementById('adminBanner').classList.add('on');
-    document.getElementById('adminBtn').textContent='⚙️ מנהל';
-    document.getElementById('adminBtn').classList.add('on');
-    document.getElementById('saveFileBtn').style.display='inline-block';
-    document.body.style.overflow='';
-    renderAll();
-  }else{
-    document.getElementById('loginErr').textContent='❌ סיסמה שגויה';
-    document.getElementById('pwInput').value='';
-    document.getElementById('pwInput').focus();
-  }
+  var pw=document.getElementById('pwInput').value;
+  auth.signInWithEmailAndPassword('admin@nadlangroup.co.il', pw)
+    .then(function(){
+      isAdmin=true;
+      document.getElementById('loginModal').classList.remove('on');
+      document.getElementById('pwInput').value='';
+      document.getElementById('loginErr').textContent='';
+      document.getElementById('adminBanner').classList.add('on');
+      document.getElementById('adminBtn').textContent='⚙️ מנהל';
+      document.getElementById('adminBtn').classList.add('on');
+      document.getElementById('saveFileBtn').style.display='inline-block';
+      document.body.style.overflow='';
+      renderAll();
+    })
+    .catch(function(){
+      document.getElementById('loginErr').textContent='❌ סיסמה שגויה';
+      document.getElementById('pwInput').value='';
+      document.getElementById('pwInput').focus();
+    });
 }
 function closeLogin(){
   document.getElementById('loginModal').classList.remove('on');
@@ -760,6 +765,7 @@ function closeLogin(){
   document.body.style.overflow='';
 }
 function logout(){
+  auth.signOut();
   isAdmin=false;
   document.getElementById('adminBanner').classList.remove('on');
   document.getElementById('adminBtn').textContent='🔒 ניהול';
