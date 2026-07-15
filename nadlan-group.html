@@ -1351,27 +1351,13 @@ function saveToFile(){
 loadFromDB();
 
 // ── PRICE FORMAT ──
-function fmtPriceInput(e){
+var PRICE_IDS=['ep','il-p','os-p'];
+document.addEventListener('input',function(e){
+  if(PRICE_IDS.indexOf(e.target.id)===-1)return;
   var el=e.target;
-  var pos=el.selectionStart;
-  var raw=el.value;
-  var prefix='';
-  if(raw.length>0&&/[₪€$£]/.test(raw[0])){prefix=raw[0];raw=raw.slice(1);}
-  var digits=raw.replace(/[^\d]/g,'');
-  if(!digits){el.value=prefix;return;}
-  var before=el.value.slice(0,pos).replace(/[^\d]/g,'').length;
-  var formatted=prefix+parseInt(digits,10).toLocaleString('en-US');
-  el.value=formatted;
-  var newPos=0,cnt=0;
-  for(var i=0;i<formatted.length;i++){
-    if(/\d/.test(formatted[i])){cnt++;if(cnt===before){newPos=i+1;}}
-  }
-  if(before===0)newPos=prefix.length;
-  el.setSelectionRange(newPos,newPos);
-}
-['ep','il-p','os-p'].forEach(function(id){
-  var el=document.getElementById(id);
-  if(el)el.addEventListener('input',fmtPriceInput);
+  var digits=el.value.replace(/\D/g,'');
+  if(!digits){el.value='';return;}
+  el.value=Number(digits).toLocaleString('en-US');
 });
 
 </script>
